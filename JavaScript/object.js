@@ -89,3 +89,62 @@ const Jane = {
 };
 console.log(isAdult(Tom));  // true
 console.log(isAdult(Jane)); // false
+
+
+// method   객체 프로퍼티로 할당 된 함수
+const hero = {
+    name: 'Tom',
+    age: 29,
+    // ↓↓↓ method
+    fly() {
+        console.log('날다.');
+    }
+}
+hero.fly();
+
+
+// this
+let boy = {
+    name: 'Mike',
+    hello() {
+        console.log(`I'm ${this.name}`);
+    },
+}
+let girl = {
+    name: 'Jane',
+    hello() {
+        console.log(`I'm ${this.name}`);
+    },
+}
+boy.hello();    // I'm Mike
+girl.hello();   // I'm Jane
+
+let boy2 = {
+    name: 'Mike',
+    showName() {
+        //console.log(boy2.name);   // bigBoy.showName()으로 호출시 boy2는 null이 됐기에 에러가 나온다.
+        console.log(this.name);     // 'Mike'
+    }
+}
+let bigBoy = boy2;
+boy2 = null;
+bigBoy.showName();
+
+/*
+화살표 함수는 일반 함수와는 달리 자신만의 this를 가지지 않는다.
+화살표 함수 내부에서 this를 사용하면, 그 this는 외부에서 값을 가져온다.
+let man = {
+    name: 'king',
+    hello: () => {
+        console.log(this);  // 전역객체
+    }
+}
+object에서는 화살표 함수로 작성하지 않는 것이 좋다.
+*/
+let man = {
+    name: 'king',
+    hello: function () {
+        console.log(this);
+    }
+}
+man.hello();
