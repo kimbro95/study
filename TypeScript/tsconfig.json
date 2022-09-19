@@ -1,0 +1,9 @@
+// 컴파일 옵션
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "strictNullChecks": true
+    }
+}
