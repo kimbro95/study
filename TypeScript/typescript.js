@@ -1,5 +1,6 @@
 /*
 - TypeScript(타입스크립트)
+npm i -g typescript > tsconfig.json
 브라우저들은 타입스크립트를 이해하지 못 한다.
 타입스크립트 코드를 자바스크립트로 변환 후 노드해야 사용 가능하다. TS => JS => browser
 
