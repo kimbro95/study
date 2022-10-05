@@ -1,12 +1,16 @@
 import './ExpenseItem.css';
 
 function ExpenseItem() {
+    const expenseDate = new Date(2022, 9, 5);
+    const expenseTtitle = 'Car Insurance';
+    const expenseAmount = 213.45;
+
     return (
         <div className='expense-item'>  {/* JSX는 class => className으로 사용*/}
-            <div>2022년 10월 05일</div>
+            <div>{expenseDate.toDateString()}</div>
             <div className='expense-item__description'>
-                <h2>Car Insurance</h2>
-                <div className='expense-item__price'>$213.45</div>
+                <h2>{expenseTtitle}</h2>
+                <div className='expense-item__price'>${expenseAmount}</div>
             </div>
         </div>
     );
