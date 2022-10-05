@@ -4,7 +4,7 @@ function App() {
   return (
     <div>
       <h2>Let's get started!</h2>
-      <ExpenseItem /> {/* JSXÄÚµå³»¿¡¼­ »ç¿ëÀÚ ÁöÁ¤ ÄÄÆ÷³ÍÆ® »ç¿ëÇÒ¶§´Â ´ë¹®ÀÚ·Î ½ÃÀÛ*/}
+      <ExpenseItem /> {/* JSXì½”ë“œë‚´ì—ì„œ ì‚¬ìš©ìž ì§€ì • ì»´í¬ë„ŒíŠ¸ ì‚¬ìš©í• ë•ŒëŠ” ëŒ€ë¬¸ìžë¡œ ì‹œìž‘*/}
     </div>
   );
 }
