@@ -1,9 +1,10 @@
 import ExpenseItem from "./ExpenseItem";
+import Card from "./Card";
 import "./Expenses.css";
 
 function Expenses(props) {
     return (
-        <div className="expenses">
+        <Card className="expenses">{/* 사용자 지정 컴포넌트에 className을 쓸 경우 해당 컴포넌트에서 props.className로 접근 할 수 있다.*/}
             <ExpenseItem
                 title={props.items[0].title}
                 amount={props.items[0].amount}
@@ -24,7 +25,7 @@ function Expenses(props) {
                 amount={props.items[3].amount}
                 date={props.items[3].date}
             />
-        </div>
+        </Card>
     );
 }
 
