@@ -9,40 +9,70 @@ const ExpenseForm = () => {
     });
 
     const titleChangeHandler = (e) => {
-        setUserInput({
-            ...userInput,
-            enteredTitle: e.target.value,
+        /*
+        리액트가 상태를 업데이트 하는 경우 바로 실행하지 않는다. 그래서 아래와 같은 방식(주석처리된 코드)으로 만약 동시에 많은 상태를 업데이트한다면 오래되거나 잘못된 상태값을 의존 할 수 있다.
+        그 아래(주석처리가 되지않은 코드)와 같이 함수를 사용하면 항상 최신 상태의 스냅샷에서 작업 할 수 있는 방법이다.
+        */
+        // setUserInput({
+        //     ...userInput,
+        //     enteredTitle: e.target.value,
+        // });
+        setUserInput((prev) => {
+            return {
+                ...prev,
+                enteredTitle: e.target.value,
+            };
         });
     };
 
     const amountChageHandler = (e) => {
-        setUserInput({
-            ...userInput,
-            enteredAmount: e.target.value,
+        setUserInput((prev) => {
+            return {
+                ...prev,
+                enteredAmount: e.target.value,
+            };
         });
     };
 
     const dateChageHandler = (e) => {
+        setUserInput((prev) => {
+            return {
+                ...prev,
+                enteredDate: e.target.value,
+            };
+        });
+    };
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        const expenseData = {
+            title: userInput.enteredTitle,
+            amount: userInput.enteredAmount,
+            date: new Date(userInput.enteredDate),
+        };
+
+        console.log(expenseData);
         setUserInput({
-            ...userInput,
-            enteredDate: e.target.value,
+            enteredTitle: '',
+            enteredAmount: '',
+            enteredDate: '',
         });
     };
 
     return (
-        <form>
+        <form onSubmit={submitHandler}>
             <div className="new-expense__controls">
                 <div className="new-expense__control">
                     <label>Title</label>
-                    <input type='text' onChange={titleChangeHandler} />
+                    <input type='text' value={userInput.enteredTitle} onChange={titleChangeHandler} />
                 </div>
                 <div className="new-expense__control">
                     <label>Amount</label>
-                    <input type='number' min="0.01" step="0.01" onChange={amountChageHandler} />
+                    <input type='number' min="0.01" step="0.01" value={userInput.enteredAmount} onChange={amountChageHandler} />
                 </div>
                 <div className="new-expense__control">
                     <label>Date</label>
-                    <input type='date' min="2022-01-01" max="2022-12-31" onChange={dateChageHandler} />
+                    <input type='date' min="2022-01-01" max="2022-12-31" value={userInput.enteredDate} onChange={dateChageHandler} />
                 </div>
             </div>
             <div className="new-expense__actions">
