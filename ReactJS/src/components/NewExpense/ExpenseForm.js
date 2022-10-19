@@ -25,7 +25,7 @@ const ExpenseForm = (props) => {
         });
     };
 
-    const amountChageHandler = (e) => {
+    const amountChangeHandler = (e) => {
         setUserInput((prev) => {
             return {
                 ...prev,
@@ -34,7 +34,7 @@ const ExpenseForm = (props) => {
         });
     };
 
-    const dateChageHandler = (e) => {
+    const dateChangeHandler = (e) => {
         setUserInput((prev) => {
             return {
                 ...prev,
@@ -46,7 +46,13 @@ const ExpenseForm = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        props.onSaveFormData(userInput);
+        const expenseData = {
+            title: userInput.enteredTitle,
+            amount: Number(userInput.enteredAmount),
+            date: new Date(userInput.enteredDate),
+        }
+
+        props.onSaveFormData(expenseData);
         setUserInput({
             enteredTitle: '',
             enteredAmount: '',
@@ -63,11 +69,11 @@ const ExpenseForm = (props) => {
                 </div>
                 <div className="new-expense__control">
                     <label>Amount</label>
-                    <input type='number' min="0.01" step="0.01" value={userInput.enteredAmount} onChange={amountChageHandler} />
+                    <input type='number' min="0.01" step="0.01" value={userInput.enteredAmount} onChange={amountChangeHandler} />
                 </div>
                 <div className="new-expense__control">
                     <label>Date</label>
-                    <input type='date' min="2022-01-01" max="2022-12-31" value={userInput.enteredDate} onChange={dateChageHandler} />
+                    <input type='date' min="2022-01-01" max="2022-12-31" value={userInput.enteredDate} onChange={dateChangeHandler} />
                 </div>
             </div>
             <div className="new-expense__actions">
