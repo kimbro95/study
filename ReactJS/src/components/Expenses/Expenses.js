@@ -11,13 +11,17 @@ const Expenses = (props) => {
         setFilteredYear(selectedYear);
     };
 
+    const filteredExpenses = props.items.filter(item => {
+        return item.date.getFullYear().toString() === filteredYear;
+    });
+
     return (
         <Card className="expenses">{/* 사용자 지정 컴포넌트에 className을 쓸 경우 해당 컴포넌트에서 props.className로 접근 할 수 있다.*/}
             <ExpensesFilter
                 selected={filteredYear}
                 onChangeFilterYear={filterChangeHandler}
             />
-            {props.items.map((item) => (
+            {filteredExpenses.map((item) => (
                 <ExpenseItem
                     key={item.id}
                     title={item.title}
