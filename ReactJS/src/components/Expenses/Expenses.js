@@ -15,20 +15,25 @@ const Expenses = (props) => {
         return item.date.getFullYear().toString() === filteredYear;
     });
 
+    let expensesContent = <p>No Expenses Found.</p>;
+    if (filteredExpenses.length > 0) {
+        expensesContent = filteredExpenses.map((item) => (
+            <ExpenseItem
+                key={item.id}
+                title={item.title}
+                amount={item.amount}
+                date={item.date}
+            />
+        ));
+    }
+
     return (
         <Card className="expenses">{/* 사용자 지정 컴포넌트에 className을 쓸 경우 해당 컴포넌트에서 props.className로 접근 할 수 있다.*/}
             <ExpensesFilter
                 selected={filteredYear}
                 onChangeFilterYear={filterChangeHandler}
             />
-            {filteredExpenses.map((item) => (
-                <ExpenseItem
-                    key={item.id}
-                    title={item.title}
-                    amount={item.amount}
-                    date={item.date}
-                />
-            ))}
+            {expensesContent}
         </Card>
     );
 }
