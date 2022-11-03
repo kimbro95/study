@@ -1,13 +1,13 @@
 import React from 'react';
 
 import AddUser from './components/Users/AddUser';
-import UserList from './components/Users/UserList';
+import UsersList from './components/Users/UsersList';
 
 const App = () => {
   return (
     <div>
       <AddUser />
-      <UserList users={[]} />
+      <UsersList users={[]} />
     </div>
   );
 };
