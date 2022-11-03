@@ -1,12 +1,12 @@
 import React from 'react';
 
 import Card from '../UI/Card';
+import Button from '../UI/Button';
 import styles from './AddUser.module.css';
 
 const AddUser = () => {
     const addUserHandler = (e) => {
         e.preventDefault();
-
     };
 
     return (
@@ -16,7 +16,7 @@ const AddUser = () => {
                 <input id="userName" type="text" />
                 <label htmlFor="age">Age</label>
                 <input id="age" type="number" />
-                <button type="submit">Add</button>
+                <Button type="submit">Add</Button>
             </form>
         </Card>
     );
