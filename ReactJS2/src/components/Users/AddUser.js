@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
@@ -45,7 +45,7 @@ const AddUser = (props) => {
     };
 
     return (
-        <div>
+        <Fragment>{/* div-soup 방지를 위해 <React.Fragment></React.Fragment>, <Fragment></Fragment> 또는 <></>를 사용 할 수 있다.*/}
             {error && <ErrorModal title={error.title} message={error.message} onErrorHandler={errorHandler} />}
             <Card cssClass={styles.input}>
                 <form onSubmit={addUserHandler}>
@@ -56,7 +56,7 @@ const AddUser = (props) => {
                     <Button type="submit">Add</Button>
                 </form>
             </Card>
-        </div>
+        </Fragment>
     );
 };
 
