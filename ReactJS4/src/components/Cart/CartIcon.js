@@ -4,7 +4,7 @@ const CartIcon = () => {
             viewBox="0 0 16 16"
             fill="currentColor"
             width="16" height="16"
-            class="bi bi-cart-plus"
+            className="bi bi-cart-plus"
             xmlns="http://www.w3.org/2000/svg"
         >
             <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z" />
