@@ -12,31 +12,47 @@ function App() {
   const getMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-
     try {
-      const response = await fetch('https://swapi.dev/api/films')
+      const response = await fetch('https://react-http-ff0f3-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json')
       if (!response.ok) {
-        throw new Error("Error...");
+        throw new Error("Fetch Movie Error...");
       }
-
       const data = await response.json();
-      const moviesData = data.results.map((movieData) => {
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          releaseDate: movieData.release_date,
-          openingText: movieData.opening_crawl,
-        };
-      });
-      setMovies(moviesData);
+
+      const loadedMovies = [];
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          releaseDate: data[key].releaseDate,
+          openingText: data[key].openingText,
+        });
+      }
+      setMovies(loadedMovies);
     } catch (error) {
       setError(error.message);
     }
     setIsLoading(false);
   }, []);
 
-  const addMovieHandler = (movie) => {
-    console.log(movie);
+  const addMovieHandler = async (movie) => {
+    try {
+      const response = await fetch('https://react-http-ff0f3-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json', {
+        method: 'POST',
+        body: JSON.stringify(movie),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error("Post Movie Error...");
+      }
+      const data = await response.json();
+      console.log(data);
+      getMoviesHandler();
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   useEffect(() => {
