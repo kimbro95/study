@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import useFetch from '../hooks/useFetch';
 
 import classes from './AddMovie.module.css';
 
@@ -6,20 +7,39 @@ function AddMovie(props) {
   const titleRef = useRef('');
   const openingTextRef = useRef('');
   const releaseDateRef = useRef('');
+  const { isLoading, error, sendRequest: sendMovieRequest } = useFetch();
 
-  function submitHandler(event) {
+  const createMovie = (movie, movieData) => {
+    const generatedId = movieData.name; // firebase-specific => "name" contains generated id
+    const createdMovie = {
+      id: generatedId,
+      title: movie.title,
+      openingText: movie.openingText,
+      releaseDate: movie.releaseDate,
+    };
+    props.onAddMovie(createdMovie);
+  };
+
+  const submitHandler = (event) => {
     event.preventDefault();
-
-    // could add validation here...
 
     const movie = {
       title: titleRef.current.value,
       openingText: openingTextRef.current.value,
       releaseDate: releaseDateRef.current.value,
     };
-
-    props.onAddMovie(movie);
-  }
+    sendMovieRequest(
+      {
+        url: 'https://react-http-ff0f3-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: movie,
+      },
+      createMovie.bind(null, movie)
+    );
+  };
 
   return (
     <form onSubmit={submitHandler}>
@@ -35,7 +55,8 @@ function AddMovie(props) {
         <label htmlFor='date'>Release Date</label>
         <input type='text' id='date' ref={releaseDateRef} />
       </div>
-      <button>Add Movie</button>
+      <button>{isLoading ? 'Loading...' : 'Add Movie'}</button>
+      {!isLoading && error && <p>{error}</p>}
     </form>
   );
 }
