@@ -1,13 +1,24 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameToched, setEnteredNameToched] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const nameInputRef = useRef();
 
   const nameInputChangeHandler = (e) => {
     setEnteredName(e.target.value);
+
+    if (e.target.value.trim() !== '') {
+      setIsValid(true);
+    }
+  };
+
+  const nameInputBlurHandler = (e) => {
+    setEnteredNameToched(true);
+
+    if (enteredName.trim() === '') {
+      setIsValid(false);
+    }
   };
 
   const formSubmitHandler = (e) => {
@@ -23,10 +34,6 @@ const SimpleInput = (props) => {
     // useState 방식
     console.log(enteredName);
 
-    // uesRef 방식
-    const enteredValue = nameInputRef.current.value;
-    console.log(enteredValue);
-
     // nameInputRef.current.value = '';  //직접적으로 DOM을 작동하는 방식은 X
     setEnteredName('');
   };
@@ -39,11 +46,11 @@ const SimpleInput = (props) => {
       <div className={nameInputClass}>
         <label htmlFor='name'>Your Name</label>
         <input
-          ref={nameInputRef}
           type='text'
           id='name'
           value={enteredName}
           onChange={nameInputChangeHandler}
+          onBlur={nameInputBlurHandler}
         />
         {nameInputIsInValid && <p className="error-text">Check Name Input</p>}
       </div>
