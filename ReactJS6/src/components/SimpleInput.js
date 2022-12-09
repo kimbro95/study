@@ -3,43 +3,29 @@ import { useState } from "react";
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameToched, setEnteredNameToched] = useState(false);
-  const [isValid, setIsValid] = useState(false);
+
+  const isValid = enteredName.trim() !== '';
+  const nameInputIsInValid = !isValid && enteredNameToched;
+  const nameInputClass = nameInputIsInValid ? 'form-control invalid' : 'form-control';
 
   const nameInputChangeHandler = (e) => {
     setEnteredName(e.target.value);
-
-    if (e.target.value.trim() !== '') {
-      setIsValid(true);
-    }
   };
 
   const nameInputBlurHandler = (e) => {
     setEnteredNameToched(true);
-
-    if (enteredName.trim() === '') {
-      setIsValid(false);
-    }
   };
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
     setEnteredNameToched(true);
 
-    if (enteredName.trim() === '') {
-      setIsValid(false);
+    if (!isValid) {
       return;
     }
-    setIsValid(true);
-
-    // useState 방식
-    console.log(enteredName);
-
-    // nameInputRef.current.value = '';  //직접적으로 DOM을 작동하는 방식은 X
     setEnteredName('');
+    setEnteredNameToched(false);
   };
-
-  const nameInputIsInValid = !isValid && enteredNameToched;
-  const nameInputClass = nameInputIsInValid ? 'form-control invalid' : 'form-control';
 
   return (
     <form onSubmit={formSubmitHandler}>
