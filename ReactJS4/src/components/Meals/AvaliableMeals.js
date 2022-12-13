@@ -22,7 +22,7 @@ const AvaliableMeals = () => {
     }
     useEffect(() => {
         fetchMeals(
-            { url: 'https://react-http-ff0f3-default-rtdb.asia-southeast1.firebasedatabase.app/meals' },
+            { url: 'https://react-http-ff0f3-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json' },
             mealList
         );
     }, [fetchMeals]);
