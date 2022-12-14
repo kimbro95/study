@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import styles from './Cart.module.css';
 import Modal from '../UI/Modal';
 import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
+import Checkout from './Checkout';
 
 const Cart = (props) => {
+    const [isCheckout, setIsCheckout] = useState(false);
     const ctx = useContext(CartContext);
     const totalAmount = `$${ctx.totalAmount.toFixed(2)}`;
     const hasItems = ctx.items.length > 0;
@@ -17,6 +19,11 @@ const Cart = (props) => {
     const cartItemRemoveHandler = (id) => {
         ctx.removeItem(id);
     };
+
+    const orderHandler = () => {
+        setIsCheckout(true);
+    };
+
     const cartItems = ctx.items.map((item) => (
         <CartItem
             key={item.id}
@@ -28,6 +35,21 @@ const Cart = (props) => {
         />
     ));
 
+    const modalActions =
+        <div className={styles.actions}>
+            <button
+                className={styles['button--alt']}
+                onClick={props.onIsShowCart}>
+                Close
+            </button>
+            {hasItems &&
+                <button
+                    className={styles.button}
+                    onClick={orderHandler}>
+                    Order
+                </button>}
+        </div>;
+
     return (
         <Modal onIsShowCart={props.onIsShowCart}>
             <ul className={styles['cart-items']}>
@@ -37,10 +59,8 @@ const Cart = (props) => {
                 <span>Total Amount</span>
                 <span>{totalAmount}</span>
             </div>
-            <div className={styles.actions}>
-                <button className={styles['button--alt']} onClick={props.onIsShowCart}>Close</button>
-                {hasItems && <button className={styles.button}>Order</button>}
-            </div>
+            {isCheckout && <Checkout onIsShowCart={props.onIsShowCart} />}
+            {!isCheckout && modalActions}
         </Modal>
     );
 };
