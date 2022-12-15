@@ -1,6 +1,6 @@
 .form {
     margin: 1rem 0;
-    height: 15rem;
+    height: 19;
     overflow: auto;
 }
 
@@ -54,6 +54,7 @@
     background-color: #5a1a01;
 }
 
+.invalid p,
 .invalid label {
     color: #ca3e51;
 }
