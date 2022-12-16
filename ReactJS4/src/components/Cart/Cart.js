@@ -9,6 +9,7 @@ import useFetch from '../../hooks/useFetch';
 
 const Cart = (props) => {
     const [isCheckout, setIsCheckout] = useState(false);
+    const [didSubmit, setDidSubmit] = useState(false);
     const { isLoading, error, sendRequest: sendOrderRequest } = useFetch();
     const ctx = useContext(CartContext);
     const totalAmount = `$${ctx.totalAmount.toFixed(2)}`;
@@ -43,6 +44,8 @@ const Cart = (props) => {
             },
             null
         );
+        ctx.clearItem();
+        setDidSubmit(true);
     };
 
     const cartItems = ctx.items.map((item) => (
@@ -71,8 +74,8 @@ const Cart = (props) => {
                 </button>}
         </div>;
 
-    return (
-        <Modal onIsShowCart={props.onIsShowCart}>
+    const cartModalContent =
+        <React.Fragment>
             <ul className={styles['cart-items']}>
                 {cartItems}
             </ul>
@@ -82,6 +85,21 @@ const Cart = (props) => {
             </div>
             {isCheckout && <Checkout onConfirm={submitOrderHandler} onIsShowCart={props.onIsShowCart} />}
             {!isCheckout && modalActions}
+        </React.Fragment>;
+
+    const isSubmittingModalContent = <p>Sending Order Data...</p>;
+    const didSubmitModalContent =
+        <React.Fragment>
+            <p>Success Order!!!</p>
+            {modalActions}
+        </React.Fragment>;
+
+    return (
+        <Modal onIsShowCart={props.onIsShowCart}>
+            {!isLoading && !didSubmit && cartModalContent}
+            {isLoading && isSubmittingModalContent}
+            {!isLoading && didSubmit && !error && didSubmitModalContent}
+            {!isLoading && error && <p>{error}</p>}
         </Modal>
     );
 };
