@@ -5,9 +5,11 @@ import Modal from '../UI/Modal';
 import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
 import Checkout from './Checkout';
+import useFetch from '../../hooks/useFetch';
 
 const Cart = (props) => {
     const [isCheckout, setIsCheckout] = useState(false);
+    const { isLoading, error, sendRequest: sendOrderRequest } = useFetch();
     const ctx = useContext(CartContext);
     const totalAmount = `$${ctx.totalAmount.toFixed(2)}`;
     const hasItems = ctx.items.length > 0;
@@ -22,6 +24,25 @@ const Cart = (props) => {
 
     const orderHandler = () => {
         setIsCheckout(true);
+    };
+
+    const submitOrderHandler = (submitData) => {
+        const orderData = {
+            user: submitData,
+            orderItems: ctx.items,
+        };
+
+        sendOrderRequest(
+            {
+                url: 'https://react-http-ff0f3-default-rtdb.asia-southeast1.firebasedatabase.app/order.json',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: orderData,
+            },
+            null
+        );
     };
 
     const cartItems = ctx.items.map((item) => (
@@ -59,7 +80,7 @@ const Cart = (props) => {
                 <span>Total Amount</span>
                 <span>{totalAmount}</span>
             </div>
-            {isCheckout && <Checkout onIsShowCart={props.onIsShowCart} />}
+            {isCheckout && <Checkout onConfirm={submitOrderHandler} onIsShowCart={props.onIsShowCart} />}
             {!isCheckout && modalActions}
         </Modal>
     );
