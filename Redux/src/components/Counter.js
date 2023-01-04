@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-
+import { counterActions } from '../store/index';
 import classes from './Counter.module.css';
-import { INCREMENT } from '../store/index'; // redux 식별자 오타를 내고 싶지 않다면, 상수를 생성하여 사용한다.
 
 const Counter = () => {
   const dispatch = useDispatch();
@@ -9,19 +8,19 @@ const Counter = () => {
   const isShow = useSelector(state => state.isShow);
 
   const incrementHandler = () => {
-    dispatch({ type: INCREMENT });
+    dispatch(counterActions.increment());
   };
 
   const increaseHandler = () => {
-    dispatch({ type: 'increase', value: 5 });
+    dispatch(counterActions.increase(5));
   };
 
   const decrementHandler = () => {
-    dispatch({ type: 'decrement' });
+    dispatch(counterActions.decrement());
   };
 
   const toggleCounterHandler = () => {
-    dispatch({ type: 'toggle' });
+    dispatch(counterActions.toggle());
   };
 
   return (
