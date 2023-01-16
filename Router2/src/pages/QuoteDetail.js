@@ -1,36 +1,50 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
+
+import useHttp from "../hooks/use-http";
+import { getSingleQuote } from "../lib/api";
 
 import Comments from "../components/comments/Comments";
 import HighlightedQuote from "../components/quotes/HighlightedQuote";
-
-const DUMMY_QUOTES = [
-    { id: 'q1', author: 'Max', text: 'Learning React is fun !!!' },
-    { id: 'q2', author: 'Min', text: 'Learning JS is fun !!!' },
-    { id: 'q3', author: 'Top', text: 'Learning Front-end is fun !!!' },
-    { id: 'q4', author: 'Data', text: 'Learning Front-end is fun !!!' },
-    { id: 'q5', author: 'End', text: 'Learning Front-end is fun !!!' }
-];
+import LoadingSpinner from "../components/UI/LoadingSpinner";
 
 const QuoteDetail = () => {
     const match = useRouteMatch();
     const params = useParams();
+    const { quoteId } = params;
 
-    const quote = DUMMY_QUOTES.find((quote) => quote.id === params.quoteId);
+    const { sendRequest, status, data: loadedQuote, error } = useHttp(
+        getSingleQuote,
+        true
+    );
 
-    if (!quote) {
+    useEffect(() => {
+        sendRequest(quoteId);
+    }, [sendRequest, quoteId]);
+
+    if (status === 'pending') {
+        return (
+            <div className="centered">
+                <LoadingSpinner />
+            </div>
+        );
+    }
+
+    if (error) {
+        return <p className="centered focused">{error}</p>;
+    }
+
+    if (!loadedQuote.text) {
         return <p>No Quote Found !!!</p>
     }
 
     return (
         <Fragment>
             <h1>QuoteDetail</h1>
-            <p>{params.quoteId}</p>
-
             <HighlightedQuote
-                id={quote.quoteId}
-                author={quote.author}
-                text={quote.text}
+                id={loadedQuote.quoteId}
+                author={loadedQuote.author}
+                text={loadedQuote.text}
             />
             <Route path={`${match.path}`} exact>
                 <div className="centered">
