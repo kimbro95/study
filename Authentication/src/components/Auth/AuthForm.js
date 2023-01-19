@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../store/auth';
 
 import classes from './AuthForm.module.css';
 
@@ -11,6 +13,8 @@ const AuthForm = () => {
   const passwordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispathch = useDispatch();
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -48,7 +52,9 @@ const AuthForm = () => {
           throw new Error(errorMessage);
         }
       }
-      console.log(data);
+      dispathch(authActions.login({
+        token: data.idToken
+      }));
       navigate('/');
     } else {  // 회원가입 처리
       try {
