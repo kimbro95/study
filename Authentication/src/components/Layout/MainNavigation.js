@@ -1,10 +1,19 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { authActions } from '../../store/auth';
 
 import classes from './MainNavigation.module.css';
 
 const MainNavigation = () => {
+  const navigate = useNavigate();
+  const dispathch = useDispatch();
+
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const logoutHandler = () => {
+    dispathch(authActions.logout());
+    navigate('/auth');
+  };
 
   return (
     <header className={classes.header}>
@@ -25,7 +34,7 @@ const MainNavigation = () => {
           )}
           {isLoggedIn && (
             <li>
-              <button>Logout</button>
+              <button onClick={logoutHandler}>Logout</button>
             </li>
           )}
         </ul>
