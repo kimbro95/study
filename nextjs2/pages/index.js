@@ -19,8 +19,17 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-const index = () => {
-  return <MeetupList meetups={DUMMY_MEETUPS} />;
+const index = (props) => {
+  return <MeetupList meetups={props.meetups} />;
+};
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+    revalidate: 1, // 이 페이지에 요청이 들어오면 1초마다 서버에서 페이지를 다시 생성한다.
+  };
 };
 
 export default index;
