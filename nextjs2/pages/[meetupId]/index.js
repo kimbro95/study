@@ -1,15 +1,18 @@
 import excuteQuery from "../../lib/dbConnect";
+import Layout from "../../components/layout/Layout";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 
 const MeetupDetails = (props) => {
   const { image, title, address, description } = props.meetupData;
   return (
-    <MeetupDetail
-      image={image}
-      title={title}
-      address={address}
-      description={description}
-    />
+    <Layout title={title}>
+      <MeetupDetail
+        image={image}
+        title={title}
+        address={address}
+        description={description}
+      />
+    </Layout>
   );
 };
 

@@ -1,8 +1,13 @@
 import excuteQuery from "../lib/dbConnect";
+import Layout from "../components/layout/Layout";
 import MeetupList from "../components/meetups/MeetupList";
 
 const index = (props) => {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <Layout>
+      <MeetupList meetups={props.meetups} />;
+    </Layout>
+  );
 };
 
 /**
